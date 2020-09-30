@@ -47,7 +47,7 @@ def ssh_check_status(ip, port, username, password, filename, date):
         #     "tail -n 2 /home/converse/Downloads/trans_data/715/{}.log".format(filename))     # 本地测试
         try:
             stdin, stdout, stderr = ssh.exec_command(
-                "tail -n 100  /home/dev/Downloads/{}_{}.log | grep 8.209.73.245.8005 | sort -r |head -1".format(
+                "tail -n 100  /home/dev/Downloads/disorder/{}_{}.log | grep 8.209.73.245.8005 | sort -r |head -1".format(
                     filename, date))
             # 取最后50条package信息，把最后的和8.209.73.245.8005交互的时间戳记录下来
 
@@ -58,7 +58,7 @@ def ssh_check_status(ip, port, username, password, filename, date):
             file_lasttimestamp = 0
 
         # 获取文件的大小
-        stdin, stdout, stderr = ssh.exec_command("du -h /home/dev/Downloads/{}_{}.log".format(filename,date))
+        stdin, stdout, stderr = ssh.exec_command("du -h /home/dev/Downloads/disorder/{}_{}.log".format(filename,date))
         fileinfo = stdout.read().decode("utf-8").strip('\n').split("\t")
         filesize = fileinfo[0]
         filename = fileinfo[1]
@@ -80,7 +80,7 @@ def print_cloud_file_status():
     f = open("logstatus.log", "a+")
     # 每一次运行都将日志和之前的间隔开
     f.write("\n")
-    date = "20200929"
+    date = "20200930"
     for cloudname, cloudip in cloud_server_dict.items():
         info = ssh_check_status(cloudip, 8010, "dev", "meiyou.mima", cloudname, date)
         if info:
